@@ -25,12 +25,18 @@ void printHeader(void) {
     std::cout << Colors::color("|\n" + topBotStr + "\n\n", Colors::GREEN);
 }
 
-void task1(const std::string &input) {
-    std::cout << input << std::endl;
+void task1(std::stringstream &input) {
+    std::string buf;
+    while (std::getline(input, buf)) {
+        std::cout << buf << std::endl;
+    }
 }
 
-void task2(const std::string &input) {
-    std::cout << input << std::endl;
+void task2(std::stringstream &input) {
+    std::string buf;
+    while (std::getline(input, buf)) {
+        std::cout << buf << std::endl;
+    }
 }
 
 int main(int, char**) {
@@ -47,8 +53,11 @@ int main(int, char**) {
     buffer << inputFile.rdbuf();
 
     std::cout << "Task 1" << std::endl;
-    task1(buffer.str());
+    task1(buffer);
+
+    buffer.clear();
+    buffer.seekg(0);
 
     std::cout << std::endl << "Task 2" << std::endl;
-    task2(buffer.str());
+    task2(buffer);
 }
