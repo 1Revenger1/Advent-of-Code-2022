@@ -6,8 +6,9 @@
 #include <format>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
-static const int DAY = 1;
+static const int DAY = 2;
 static const std::string NAME = "Calorie Counting";
 
 void printHeader(void) {
@@ -29,39 +30,80 @@ void printHeader(void) {
 
 void task1(std::stringstream &input) {
     std::string buf;
-    uint32_t maxElf = 0;
-    uint32_t curElf = 0;
+    int score = 0;
 
     while (std::getline(input, buf)) {
-        if (buf.empty()) {
-            maxElf = std::max(curElf, maxElf);
-            curElf = 0;
+        std::stringstream ss(buf);
+        std::string oppo;
+        std::string play;
+
+        ss >> std::quoted(oppo);
+        ss >> std::quoted(play);
+
+        // A = ROCK
+        // B = PAPER
+        // Z = Scissors
+        // X = ROCK
+        // Y = PAPER
+        // Z = Scissors
+
+        if (play == "X") score += 1;
+        if (play == "Y") score += 2;
+        if (play == "Z") score += 3;
+
+        if (oppo == "A") {
+            if (play == "X") score += 3;
+            else if (play == "Y") score += 6;
+            else score += 0;
+        } else if (oppo == "B") {
+            if (play == "X") score += 0;
+            else if (play == "Y") score += 3;
+            else score += 6;
         } else {
-            curElf += std::stoi(buf);
+            if (play == "X") score += 6;
+            else if (play == "Y") score += 0;
+            else score += 3;
         }
     }
 
-    std::cout << "Max weight is: " << maxElf << std::endl;
+    std::cout << "Max score is: " << score << std::endl;
 }
 
 void task2(std::stringstream &input) {
     std::string buf;
-    uint32_t curElf = 0;
-    std::vector<uint32_t> elfs;
+    int score = 0;
 
     while (std::getline(input, buf)) {
-        if (buf.empty()) {
-            elfs.push_back(curElf);
-            curElf = 0;
-        } else {
-            curElf += std::stoi(buf);
+        std::stringstream ss(buf);
+        std::string oppo;
+        std::string play;
+
+        ss >> std::quoted(oppo);
+        ss >> std::quoted(play);
+
+        // A = ROCK +1
+        // B = PAPER +2
+        // Z = Scissors +3
+        // X = lose +0
+        // Y = draw +3
+        // Z = win +6
+
+        if (oppo == "A") {
+            if (play == "X") score += 3;
+            else if (play == "Y") score += 4;
+            else score += 8;
+        } else if (oppo == "B") {
+            if (play == "X") score += 1;
+            else if (play == "Y") score += 5;
+            else score += 9;
+        } else { // scissors
+            if (play == "X") score += 2;
+            else if (play == "Y") score += 6;
+            else score += 7;
         }
     }
 
-    std::sort(elfs.begin(), elfs.end(), std::greater<int>());
-    uint32_t threeElfs = elfs[0] + elfs[1] + elfs[2];
-
-    std::cout << "Max three weights is: " << threeElfs << std::endl;
+    std::cout << "Max score is: " << score << std::endl;
 }
 
 int main(int, char**) {

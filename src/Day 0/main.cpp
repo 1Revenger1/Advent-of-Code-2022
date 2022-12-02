@@ -42,7 +42,7 @@ void task2(std::stringstream &input) {
 int main(int, char**) {
     printHeader();
 
-    std::ifstream inputFile("../../src/Day " + std::to_string(DAY) + "/input.txt");
+    std::ifstream inputFile("./src/Day " + std::to_string(DAY) + "/input.txt");
     std::stringstream buffer;
 
     if (inputFile.fail()) {
