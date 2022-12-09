@@ -95,12 +95,9 @@ void move_tail(std::pair<int, int> &head, std::pair<int, int> &tail) {
     int yDis = head.second - tail.second;
     int xDis = head.first - tail.first;
 
-    if (std::abs(yDis) >= 2) {
-        tail.second += signum(yDis);
-        if (std::abs(xDis) >= 1) tail.first += signum(xDis);
-    } else if (std::abs(xDis) >= 2) {
-        tail.first += signum(xDis);
+    if (std::abs(yDis) >= 2 || std::abs(xDis) >= 2) {
         if (std::abs(yDis) >= 1) tail.second += signum(yDis);
+        if (std::abs(xDis) >= 1) tail.first += signum(xDis);
     }
 }
 
