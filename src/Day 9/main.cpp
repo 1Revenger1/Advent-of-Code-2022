@@ -22,6 +22,12 @@ struct pair_hash {
     }
 };
 
+int signum(int x) {
+    if (x > 0) return 1;
+    else if ( x < 0) return -1;
+    else return 0;
+}
+
 void task1(std::stringstream &input) {
     std::unordered_set<std::pair<int, int>, pair_hash> visited;
     std::string buf;
@@ -50,32 +56,9 @@ void task1(std::stringstream &input) {
             int yDis = head.second - tail.second;
             int xDis = head.first - tail.first;
 
-            // Diagonal :(
-            switch (dir) {
-                case 'U':
-                    if (yDis > 1) {
-                        tail.second++;
-                        if (std::abs(xDis) == 1) tail.first = head.first;
-                    }
-                    break;
-                case 'D':
-                    if (yDis < -1) {
-                        tail.second--;
-                        if (std::abs(xDis) == 1) tail.first = head.first;
-                    }
-                    break;
-                case 'L':
-                    if (xDis < -1) {
-                        tail.first--;
-                        if (std::abs(yDis) == 1) tail.second = head.second;
-                    }
-                    break;
-                case 'R':
-                    if (xDis > 1) {
-                        tail.first++;
-                        if (std::abs(yDis) == 1) tail.second = head.second;
-                    }
-                    break;
+            if (std::abs(yDis) >= 2 || std::abs(xDis) >= 2) {
+                tail.second += signum(yDis);
+                tail.first += signum(xDis);
             }
 
             visited.insert(tail);
@@ -85,19 +68,13 @@ void task1(std::stringstream &input) {
     std::cout << "Visited tiles: " << visited.size() << std::endl;
 }
 
-int signum(int x) {
-    if (x > 0) return 1;
-    else if ( x < 0) return -1;
-    else return 0;
-}
-
 void move_tail(std::pair<int, int> &head, std::pair<int, int> &tail) {
     int yDis = head.second - tail.second;
     int xDis = head.first - tail.first;
 
     if (std::abs(yDis) >= 2 || std::abs(xDis) >= 2) {
-        if (std::abs(yDis) >= 1) tail.second += signum(yDis);
-        if (std::abs(xDis) >= 1) tail.first += signum(xDis);
+        tail.second += signum(yDis);
+        tail.first += signum(xDis);
     }
 }
 
