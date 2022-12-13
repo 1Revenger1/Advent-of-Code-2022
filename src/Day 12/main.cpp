@@ -112,20 +112,16 @@ void task2(std::stringstream &input) {std::string buf;
     std::priority_queue<std::pair<int, GraphNode *>, std::vector<std::pair<int, GraphNode *>>, std::greater<std::pair<int, GraphNode *>>> queue;
     std::vector<std::vector<GraphNode *>> map(lines.size());
 
-    std::vector<GraphNode *> lowElev;
-
     for (int y = 0; y < lines.size(); y++) {
         for (char c : lines[y]) {
             GraphNode *node = new GraphNode;
             if (c == 'S') {
                 node->height = 0;
-                lowElev.push_back(node);
             } else if (c == 'E') {
                 node->dist = 0;
                 queue.push(std::pair<int, GraphNode *> (0, node));
                 node->height = 'z' - 'a';
             } else {
-                if (c == 'a') lowElev.push_back(node);
                 node->height = c - 'a';
             }
 
@@ -141,6 +137,11 @@ void task2(std::stringstream &input) {std::string buf;
         node->visited = true;
 
         if (node->height == -1) continue;
+
+        if (node->height == 0) {
+            std::cout << "Distance travelled is: " << node->dist << std::endl;
+            break;
+        }
 
         for (const auto &dir : dirs) {
             auto [dx, dy] = dir;
@@ -162,13 +163,6 @@ void task2(std::stringstream &input) {std::string buf;
             }
         }
     }
-
-    unsigned int lowDist = INT32_MAX;
-    for (const GraphNode *node : lowElev) {
-        lowDist = std::min(node->dist, lowDist);
-    }
-
-    std::cout << "Distance travelled is: " << lowDist << std::endl;
 }
 
 int main(int, char**) {
