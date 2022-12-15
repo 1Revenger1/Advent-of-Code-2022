@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 include(CTest)
 enable_testing()
 
-SET(DAY "14")
+SET(DAY "15")
 FILE(GLOB DayFiles "src/Day ${DAY}/*.cpp")
 add_executable(Advent-of-Code-2022 ${DayFiles})
 target_include_directories(Advent-of-Code-2022 PRIVATE include)
